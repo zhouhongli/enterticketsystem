@@ -138,6 +138,13 @@ class JsonRepository:
             reverse=True,
         )
 
+    def list_audit_logs(self) -> list[dict[str, Any]]:
+        return sorted(
+            self.store.read()["audit_logs"],
+            key=lambda log: log["occurred_at"],
+            reverse=True,
+        )
+
     def list_active_categories(self) -> list[dict[str, Any]]:
         return [
             category
