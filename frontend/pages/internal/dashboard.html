@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>数据看板 - 企业售后工单系统</title>
+  <link rel="stylesheet" href="/assets/css/styles.css">
+</head>
+<body data-admin-page="dashboard">
+  <header class="app-header">
+    <div class="brand">企业售后工单系统</div>
+    <div class="identity" data-identity>admin｜管理员｜退出</div>
+  </header>
+  <nav class="nav">
+    <a href="/pages/internal/dashboard.html" aria-current="page">数据看板</a>
+    <a href="/pages/internal/tickets.html">工单列表</a>
+    <a href="/pages/internal/categories.html">分类管理</a>
+    <a href="/pages/internal/agents.html">客服账号</a>
+    <a href="/pages/internal/customers.html">客户账号</a>
+  </nav>
+  <main class="page">
+    <h1 class="page-title">数据看板</h1>
+    <div class="feedback" data-feedback>正在加载数据...</div>
+    <div class="dashboard-range" data-range>
+      <button class="range-btn active" data-range-btn="7d">近 7 天</button>
+      <button class="range-btn" data-range-btn="30d">近 30 天</button>
+      <button class="range-btn" data-range-btn="90d">近 90 天</button>
+      <button class="range-btn" data-range-btn="all">全部</button>
+    </div>
+    <div class="dashboard-grid">
+      <section class="panel dashboard-card" data-card="overview">
+        <h2>工单状态分布</h2>
+        <div data-overview></div>
+      </section>
+      <section class="panel dashboard-card" data-card="trend">
+        <h2>工单趋势</h2>
+        <div data-trend></div>
+      </section>
+      <section class="panel dashboard-card" data-card="avg-times">
+        <h2>平均处理时长</h2>
+        <div data-avg-times></div>
+      </section>
+      <section class="panel dashboard-card" data-card="category-dist">
+        <h2>问题分类分布</h2>
+        <div data-category-dist></div>
+      </section>
+    </div>
+    <div class="dashboard-bottom">
+      <section class="panel" data-card="agent-workload">
+        <h2>客服工作量</h2>
+        <div data-agent-workload></div>
+      </section>
+      <section class="panel" data-card="recent-logs">
+        <h2>最新动态</h2>
+        <div data-recent-logs></div>
+      </section>
+    </div>
+  </main>
+  <script type="module" src="/assets/js/session-ui.js"></script>
+  <script type="module" src="/assets/js/admin-stats.js"></script>
+</body>
+</html>
