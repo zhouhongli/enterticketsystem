@@ -116,3 +116,119 @@ def test_full_scenario_returns_all_sections(tmp_path) -> None:
     assert result["agent_workload"][0]["username"] == "agent01"
     assert result["agent_workload"][0]["assigned"] == 1
     assert len(result["recent_logs"]) >= 3  # created, assigned, status_changed
+
+
+def test_avg_times_for_closed_ticket(tmp_path) -> None:
+    """Verify avg_times computes non-zero overall_avg_hours for a full ticket lifecycle."""
+    from app.domain.models import ticket_record
+    from app.services.admin_stats_service import AdminStatsService
+
+    repo = make_repo(tmp_path)
+    admin = add_user(repo, username="admin", email="a@b.com", role=UserRole.ADMIN)
+    agent = add_user(repo, username="agent01", email="g@b.com", role=UserRole.AGENT)
+    customer = add_user(repo, username="cust01", email="c@b.com", role=UserRole.CUSTOMER)
+    cat = repo.create_category(name="产品故障", actor_user=admin)
+
+    # Create a ticket with a fixed timestamp
+    tid = "lifecycle-ticket-001"
+    repo.store.transaction(
+        lambda data: data["tickets"].append(
+            ticket_record(
+                title="生命周期工单",
+                description="描述",
+                category=cat,
+                customer_user_id=customer["id"],
+                ticket_id=tid,
+                now="2026-05-31T00:00:00Z",
+            )
+        )
+    )
+
+    # Inject a full lifecycle with spaced-out timestamps
+    for action, changes, occurred_at in [
+        (
+            AuditAction.TICKET_CREATED,
+            {"status": {"before": None, "after": "unassigned"}},
+            "2026-05-31T00:00:00Z",
+        ),
+        (
+            AuditAction.TICKET_ASSIGNED,
+            {"assignee_user_id": {"before": None, "after": agent["id"]}},
+            "2026-05-31T02:00:00Z",
+        ),
+        (
+            AuditAction.TICKET_STATUS_CHANGED,
+            {"status": {"before": "unassigned", "after": "processing"}},
+            "2026-05-31T04:00:00Z",
+        ),
+        (
+            AuditAction.TICKET_STATUS_CHANGED,
+            {"status": {"before": "processing", "after": "resolved"}},
+            "2026-05-31T10:00:00Z",
+        ),
+        (
+            AuditAction.TICKET_STATUS_CHANGED,
+            {"status": {"before": "resolved", "after": "closed"}},
+            "2026-06-01T00:00:00Z",
+        ),
+    ]:
+        repo.store.transaction(
+            lambda data: data["audit_logs"].append(
+                audit_log_record(
+                    action=action,
+                    actor_user=admin,
+                    target_type="ticket",
+                    target_id=tid,
+                    changes=changes,
+                    ticket_id=tid,
+                    now=occurred_at,
+                )
+            )
+        )
+
+    svc = AdminStatsService(repo)
+    result = svc.get_stats("7d")
+
+    assert result["avg_times"]["overall_avg_hours"] > 0
+
+
+def test_all_range_returns_weekly_buckets(tmp_path) -> None:
+    """Verify that range_='all' groups tickets by week."""
+    from datetime import datetime, timedelta, timezone
+
+    from app.domain.models import ticket_record
+    from app.services.admin_stats_service import AdminStatsService
+
+    repo = make_repo(tmp_path)
+    admin = add_user(repo, username="admin", email="a@b.com", role=UserRole.ADMIN)
+    customer = add_user(repo, username="cust01", email="c@b.com", role=UserRole.CUSTOMER)
+    cat = repo.create_category(name="产品故障", actor_user=admin)
+
+    # Inject two tickets on different days but in the same week (2026-05-18 is Monday)
+    for i, (title, created_at) in enumerate([
+        ("工单周一", "2026-05-18T10:00:00Z"),
+        ("工单周三", "2026-05-20T10:00:00Z"),
+    ], start=1):
+        tid = f"weekly-ticket-00{i}"
+        repo.store.transaction(
+            lambda data: data["tickets"].append(
+                ticket_record(
+                    title=title,
+                    description="描述",
+                    category=cat,
+                    customer_user_id=customer["id"],
+                    ticket_id=tid,
+                    now=created_at,
+                )
+            )
+        )
+
+    svc = AdminStatsService(repo)
+    result = svc.get_stats(range_="all")
+
+    # Both tickets should be in the same weekly bucket
+    assert len(result["trend"]) == 1
+    assert result["trend"][0]["count"] == 2
+    # The bucket key should be the Monday of that week
+    week_start = datetime(2026, 5, 18, tzinfo=timezone.utc)
+    assert result["trend"][0]["date"] == week_start.strftime("%Y-%m-%d")

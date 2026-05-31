@@ -31,7 +31,7 @@ class AdminStatsService:
             "avg_times": self._avg_times(all_audit_logs),
             "category_dist": self._category_dist(filtered_tickets, all_categories),
             "agent_workload": self._agent_workload(filtered_tickets, all_users),
-            "recent_logs": self._recent_logs(all_audit_logs, all_users),
+            "recent_logs": self._recent_logs(all_audit_logs, all_users, all_tickets),
         }
 
     def _cutoff(self, range_: str) -> datetime | None:
@@ -178,12 +178,11 @@ class AdminStatsService:
         return result
 
     def _recent_logs(
-        self, audit_logs: list[dict], users: list[dict]
+        self, audit_logs: list[dict], users: list[dict], tickets: list[dict]
     ) -> list[dict[str, Any]]:
         user_map = {u["id"]: u["username"] for u in users}
-        all_tickets = self.repository.list_internal_tickets()
         ticket_title_map = {
-            b["ticket"]["id"]: b["ticket"]["title"] for b in all_tickets
+            b["ticket"]["id"]: b["ticket"]["title"] for b in tickets
         }
 
         result = []
@@ -199,6 +198,7 @@ class AdminStatsService:
                 entry["from_status"] = changes.get("before", "")
                 entry["to_status"] = changes.get("after", "")
             elif log["action"] in ("ticket_assigned", "ticket_reassigned"):
-                entry["assignee"] = log.get("changes", {}).get("assignee_user_id", {}).get("after", "")
+                assignee_id = log.get("changes", {}).get("assignee_user_id", {}).get("after", "")
+                entry["assignee"] = user_map.get(assignee_id, "未知") if assignee_id else ""
             result.append(entry)
         return result
