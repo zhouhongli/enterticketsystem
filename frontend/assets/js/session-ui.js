@@ -14,6 +14,7 @@ const roleLinks = {
   ],
   agent: [{ href: "/pages/internal/tickets.html", label: "工单列表" }],
   admin: [
+    { href: "/pages/internal/dashboard.html", label: "数据看板" },
     { href: "/pages/internal/tickets.html", label: "工单列表" },
     { href: "/pages/internal/categories.html", label: "分类管理" },
     { href: "/pages/internal/agents.html", label: "客服账号" },
