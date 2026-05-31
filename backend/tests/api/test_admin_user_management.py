@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 import anyio
 import httpx
 from fastapi import FastAPI

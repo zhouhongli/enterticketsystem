@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 from fastapi import APIRouter, Depends, Query, Request
 
 from app.api.dependencies import get_repository, require_admin, require_internal_user
