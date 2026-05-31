@@ -1,5 +1,6 @@
 import { apiRequest } from "./api-client.js";
 import { showErrorFeedback, showFeedback } from "./form-utils.js";
+import { sessionReady } from "./session-ui.js";
 
 const rangeBtns = document.querySelectorAll("[data-range-btn]");
 let currentRange = "7d";
@@ -29,12 +30,12 @@ async function loadStats() {
   showFeedback("正在加载数据...", "");
   try {
     const data = await apiRequest(`/api/v1/admin/stats?range=${currentRange}`);
-    renderOverview(data.overview);
-    renderTrend(data.trend);
-    renderAvgTimes(data.avg_times);
-    renderCategoryDist(data.category_dist);
-    renderAgentWorkload(data.agent_workload);
-    renderRecentLogs(data.recent_logs);
+    renderOverview(data?.overview ?? {});
+    renderTrend(data?.trend ?? []);
+    renderAvgTimes(data?.avg_times ?? {});
+    renderCategoryDist(data?.category_dist ?? []);
+    renderAgentWorkload(data?.agent_workload ?? []);
+    renderRecentLogs(data?.recent_logs ?? []);
     showFeedback(`数据已加载（${currentRange === "all" ? "全部" : currentRange}）`, "success");
   } catch (error) {
     if (error.status === 401) {
@@ -61,7 +62,7 @@ function renderOverview(overview) {
     .map(([status, count]) => {
       const pct = Math.round((count / overview.total) * 100);
       return `<div class="stat-row">
-        <span class="stat-label">${statusTexts[status] || status}</span>
+        <span class="stat-label">${escapeHtml(statusTexts[status] || status)}</span>
         <span class="stat-value">${count}</span>
         <div class="stat-bar"><div class="stat-bar-fill" style="width:${pct}%"></div></div>
       </div>`;
@@ -84,7 +85,7 @@ function renderTrend(trend) {
       const label = d.date.length === 10 ? d.date.slice(5) : d.date.slice(0, 7);
       return `<div class="trend-bar-wrap">
         <div class="trend-bar" style="height:${height}px" title="${d.count} 单"></div>
-        <div class="trend-label">${label}</div>
+        <div class="trend-label">${escapeHtml(label)}</div>
       </div>`;
     })
     .join("");
@@ -169,15 +170,15 @@ function renderRecentLogs(logs) {
     .map((log) => {
       let detail = "";
       if (log.action === "ticket_status_changed") {
-        const from = statusTexts[log.from_status] || log.from_status;
-        const to = statusTexts[log.to_status] || log.to_status;
+        const from = escapeHtml(statusTexts[log.from_status] || log.from_status || "");
+        const to = escapeHtml(statusTexts[log.to_status] || log.to_status || "");
         detail = `${from} → ${to}`;
       } else if (log.action === "ticket_assigned" || log.action === "ticket_reassigned") {
         detail = "已分配";
       } else if (log.action === "ticket_created") {
         detail = "新建工单";
       } else {
-        detail = log.action;
+        detail = escapeHtml(log.action);
       }
       return `<div class="audit-item">
         <strong>${escapeHtml(log.ticket_title)}</strong> — ${detail}
@@ -188,14 +189,18 @@ function renderRecentLogs(logs) {
   el.innerHTML = `<div class="audit-list">${items}</div>`;
 }
 
-// Range button handlers
-rangeBtns.forEach((btn) => {
-  btn.addEventListener("click", () => {
-    rangeBtns.forEach((b) => b.classList.remove("active"));
-    btn.classList.add("active");
-    currentRange = btn.dataset.rangeBtn;
-    loadStats();
-  });
-});
+(async function initDashboard() {
+  const user = await sessionReady;
+  if (!user || user.role !== "admin") return;
 
-await loadStats();
+  rangeBtns.forEach((btn) => {
+    btn.addEventListener("click", () => {
+      rangeBtns.forEach((b) => b.classList.remove("active"));
+      btn.classList.add("active");
+      currentRange = btn.dataset.rangeBtn;
+      loadStats();
+    });
+  });
+
+  await loadStats();
+})();
