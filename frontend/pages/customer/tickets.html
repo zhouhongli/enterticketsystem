@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>我的工单 - 企业售后工单系统</title>
+  <link rel="stylesheet" href="/assets/css/styles.css">
+</head>
+<body data-customer-page="tickets">
+  <header class="app-header">
+    <div class="brand">企业售后工单系统</div>
+    <div class="identity" data-identity>zhangsan｜客户｜退出</div>
+  </header>
+  <nav class="nav">
+    <a href="/pages/customer/tickets.html" aria-current="page">我的工单</a>
+    <a href="/pages/customer/ticket-new.html">新建工单</a>
+  </nav>
+  <main class="page">
+    <h1 class="page-title">我的工单</h1>
+    <div class="feedback" data-feedback>正在加载我的工单...</div>
+    <div class="actions">
+      <a class="button" href="/pages/customer/ticket-new.html">新建工单</a>
+    </div>
+    <section class="panel">
+      <table>
+        <thead>
+          <tr><th>标题</th><th>分类</th><th>状态</th><th>创建时间</th><th>操作</th></tr>
+        </thead>
+        <tbody data-ticket-list>
+          <tr><td colspan="5" class="meta">正在加载...</td></tr>
+        </tbody>
+      </table>
+    </section>
+    <div class="empty" data-ticket-empty hidden>
+      暂无工单。
+      <a href="/pages/customer/ticket-new.html">新建工单</a>
+    </div>
+  </main>
+  <script type="module" src="/assets/js/session-ui.js"></script>
+  <script type="module" src="/assets/js/customer-tickets.js"></script>
+</body>
+</html>

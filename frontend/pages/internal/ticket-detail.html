@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>内部工单详情 - 企业售后工单系统</title>
+  <link rel="stylesheet" href="/assets/css/styles.css">
+</head>
+<body data-internal-page="ticket-detail">
+  <header class="app-header">
+    <div class="brand">企业售后工单系统</div>
+    <div class="identity" data-identity>admin｜管理员｜退出</div>
+  </header>
+  <nav class="nav">
+    <a href="/pages/internal/tickets.html">工单列表</a>
+    <a href="/pages/internal/categories.html">分类管理</a>
+    <a href="/pages/internal/agents.html">客服账号</a>
+    <a href="/pages/internal/customers.html">客户账号</a>
+  </nav>
+  <main class="page">
+    <h1 class="page-title">内部工单详情</h1>
+    <div class="feedback" data-feedback>正在加载内部工单详情...</div>
+    <section class="panel" data-ticket-content>
+      <h2>工单概要</h2>
+      <p>标题：<span data-ticket-title>正在加载...</span></p>
+      <p>客户：<span data-ticket-customer>正在加载...</span></p>
+      <p>分类：<span data-ticket-category>正在加载...</span></p>
+      <p>状态：<span class="status" data-ticket-status>正在加载...</span></p>
+      <p>负责人：<span data-ticket-assignee>正在加载...</span></p>
+      <p>创建时间：<span data-ticket-created>正在加载...</span></p>
+      <p>更新时间：<span data-ticket-updated>正在加载...</span></p>
+    </section>
+    <section class="panel" data-ticket-content>
+      <h2>问题描述</h2>
+      <p data-ticket-description>正在加载...</p>
+    </section>
+    <section class="panel" data-assignment-panel hidden>
+      <h2>分配区</h2>
+      <form data-assignment-form>
+        <div class="form-row">
+          <label for="assignee-user-id">负责人 *</label>
+          <select id="assignee-user-id" name="assignee_user_id" required data-assignee-select></select>
+        </div>
+        <div class="actions"><button type="submit" data-assignment-submit>分配</button></div>
+      </form>
+      <div class="meta" data-assignment-note></div>
+    </section>
+    <section class="panel" data-status-panel hidden>
+      <h2>状态操作区</h2>
+      <p>当前状态：<span class="status" data-current-status>正在加载...</span></p>
+      <div class="actions">
+        <button type="button" data-status-action></button>
+      </div>
+      <div class="meta" data-status-note></div>
+    </section>
+    <section class="panel" data-ticket-content>
+      <h2>公开留言</h2>
+      <div class="message-list" data-message-list>
+        <div class="meta">正在加载...</div>
+      </div>
+    </section>
+    <section class="panel" data-message-form-panel hidden>
+      <h2>新增留言</h2>
+      <form data-message-form>
+        <div class="form-row">
+          <label for="message-content">留言内容 *</label>
+          <textarea id="message-content" name="content" maxlength="2000" required></textarea>
+        </div>
+        <div class="actions"><button type="submit">发送留言</button></div>
+      </form>
+    </section>
+    <div class="empty" data-no-action-notice hidden>当前账号可查看此工单，暂无可执行处理操作。</div>
+    <div class="empty" data-closed-notice hidden>该工单已关闭，不能继续留言、分配或变更状态。</div>
+    <section class="panel" data-ticket-content>
+      <h2>操作记录</h2>
+      <div class="audit-list" data-audit-list>
+        <div class="meta">正在加载...</div>
+      </div>
+    </section>
+  </main>
+  <script type="module" src="/assets/js/session-ui.js"></script>
+  <script type="module" src="/assets/js/internal-tickets.js"></script>
+</body>
+</html>

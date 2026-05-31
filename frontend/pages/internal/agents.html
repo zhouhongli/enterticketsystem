@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>客服账号 - 企业售后工单系统</title>
+  <link rel="stylesheet" href="/assets/css/styles.css">
+</head>
+<body data-admin-page="agents">
+  <header class="app-header">
+    <div class="brand">企业售后工单系统</div>
+    <div class="identity" data-identity>admin｜管理员｜退出</div>
+  </header>
+  <nav class="nav">
+    <a href="/pages/internal/tickets.html">工单列表</a>
+    <a href="/pages/internal/categories.html">分类管理</a>
+    <a href="/pages/internal/agents.html" aria-current="page">客服账号</a>
+    <a href="/pages/internal/customers.html">客户账号</a>
+  </nav>
+  <main class="page">
+    <h1 class="page-title">客服账号</h1>
+    <div class="feedback" data-feedback>正在加载客服账号...</div>
+    <section class="panel">
+      <h2>创建客服账号</h2>
+      <form data-agent-form>
+        <div class="form-row"><label for="agent-username">用户名 *</label><input id="agent-username" name="username" autocomplete="username" required minlength="3" maxlength="50"></div>
+        <div class="form-row"><label for="agent-email">电子邮箱 *</label><input id="agent-email" name="email" type="email" autocomplete="email" required maxlength="254"></div>
+        <div class="form-row"><label for="agent-password">初始密码 *</label><input id="agent-password" name="password" type="password" autocomplete="new-password" required minlength="8" maxlength="128"></div>
+        <div class="form-row"><label for="agent-confirm-password">确认密码 *</label><input id="agent-confirm-password" name="confirm_password" type="password" autocomplete="new-password" required minlength="8" maxlength="128"></div>
+        <button type="submit">创建客服</button>
+      </form>
+    </section>
+    <section class="panel">
+      <h2>客服列表</h2>
+      <table>
+        <thead><tr><th>用户名</th><th>电子邮箱</th><th>创建时间</th></tr></thead>
+        <tbody data-agent-list><tr><td colspan="3" class="meta">正在加载...</td></tr></tbody>
+      </table>
+    </section>
+  </main>
+  <script type="module" src="/assets/js/session-ui.js"></script>
+  <script type="module" src="/assets/js/admin-management.js"></script>
+</body>
+</html>

@@ -1,0 +1,285 @@
+:root {
+  --bg: #f7f8fa;
+  --panel: #ffffff;
+  --text: #1f2933;
+  --muted: #667085;
+  --line: #d0d5dd;
+  --strong: #344054;
+  --accent: #2f6f73;
+  --accent-soft: #e7f3f2;
+  --danger: #9f2f2f;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  background: var(--bg);
+  color: var(--text);
+  font-family: "Microsoft YaHei", "Segoe UI", sans-serif;
+  line-height: 1.5;
+}
+
+a {
+  color: var(--accent);
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+.app-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 24px;
+  padding: 16px 28px;
+  border-bottom: 1px solid var(--line);
+  background: var(--panel);
+}
+
+.brand {
+  font-size: 20px;
+  font-weight: 700;
+}
+
+.identity {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  color: var(--muted);
+  font-size: 14px;
+}
+
+.link-button {
+  min-height: auto;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: var(--accent);
+  font-size: inherit;
+}
+
+.link-button:hover {
+  text-decoration: underline;
+}
+
+.nav {
+  display: flex;
+  gap: 14px;
+  padding: 10px 28px;
+  border-bottom: 1px solid var(--line);
+  background: var(--panel);
+}
+
+.nav a {
+  padding: 6px 10px;
+  border-radius: 4px;
+}
+
+.nav a[aria-current="page"] {
+  background: var(--accent-soft);
+  color: var(--accent);
+  font-weight: 700;
+}
+
+.page {
+  max-width: 1080px;
+  margin: 0 auto;
+  padding: 28px;
+}
+
+.auth-page {
+  max-width: 420px;
+}
+
+.page-title {
+  margin: 0 0 16px;
+  font-size: 26px;
+}
+
+.feedback {
+  min-height: 40px;
+  margin-bottom: 16px;
+  padding: 10px 12px;
+  border: 1px solid var(--line);
+  background: var(--panel);
+  color: var(--muted);
+}
+
+.panel {
+  margin-bottom: 18px;
+  padding: 18px;
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  background: var(--panel);
+}
+
+.panel h2 {
+  margin: 0 0 12px;
+  font-size: 18px;
+}
+
+.form-row {
+  display: grid;
+  gap: 6px;
+  margin-bottom: 14px;
+}
+
+label {
+  font-weight: 700;
+}
+
+input,
+select,
+textarea {
+  width: 100%;
+  min-height: 40px;
+  padding: 8px 10px;
+  border: 1px solid var(--line);
+  border-radius: 4px;
+  background: #fff;
+  color: var(--text);
+  font: inherit;
+}
+
+textarea {
+  min-height: 120px;
+  resize: vertical;
+}
+
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  align-items: center;
+}
+
+.button,
+button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 40px;
+  padding: 8px 14px;
+  border: 1px solid var(--strong);
+  border-radius: 4px;
+  background: var(--strong);
+  color: #fff;
+  font: inherit;
+  cursor: pointer;
+}
+
+.button.secondary,
+button.secondary {
+  background: #fff;
+  color: var(--strong);
+}
+
+.button.danger,
+button.danger {
+  border-color: var(--danger);
+  background: var(--danger);
+}
+
+.filters {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 14px;
+}
+
+.filter {
+  padding: 6px 10px;
+  border: 1px solid var(--line);
+  border-radius: 4px;
+  background: #fff;
+  color: var(--strong);
+}
+
+.filter.active {
+  border-color: var(--accent);
+  background: var(--accent-soft);
+  color: var(--accent);
+  font-weight: 700;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  background: var(--panel);
+}
+
+th,
+td {
+  padding: 10px;
+  border: 1px solid var(--line);
+  text-align: left;
+  vertical-align: top;
+}
+
+th {
+  background: #f2f4f7;
+}
+
+.status {
+  display: inline-block;
+  padding: 2px 8px;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  background: #fff;
+  white-space: nowrap;
+}
+
+.empty {
+  padding: 18px;
+  border: 1px dashed var(--line);
+  background: #fff;
+  color: var(--muted);
+}
+
+.message-list,
+.audit-list {
+  display: grid;
+  gap: 10px;
+}
+
+.message,
+.audit-item {
+  padding: 12px;
+  border: 1px solid var(--line);
+  border-radius: 4px;
+  background: #fff;
+}
+
+.audit-item p,
+.message p {
+  margin: 6px 0 0;
+}
+
+.meta {
+  color: var(--muted);
+  font-size: 14px;
+}
+
+@media (max-width: 720px) {
+  .app-header,
+  .nav,
+  .actions {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .page {
+    padding: 18px;
+  }
+
+  table {
+    display: block;
+    overflow-x: auto;
+  }
+}

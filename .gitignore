@@ -1,0 +1,34 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.egg-info/
+dist/
+build/
+
+# Virtual environments
+.venv/
+venv/
+
+# Data files
+backend/data/store.json
+backend/data/*.log
+
+# Environment (may contain real secrets)
+.env
+!.env.example
+
+# OS
+.DS_Store
+Thumbs.db
+
+# IDE
+.vscode/
+.idea/
+*.swp
+
+# pytest
+.pytest_cache/
+
+# Claude Code
+.claude/

@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>登录 - 企业售后工单系统</title>
+  <link rel="stylesheet" href="/assets/css/styles.css">
+</head>
+<body data-auth-page="login">
+  <main class="page auth-page">
+    <h1 class="page-title">企业售后工单系统</h1>
+    <section class="panel">
+      <h2>登录</h2>
+      <div class="feedback" data-feedback>客户、客服和管理员使用统一入口登录。</div>
+      <form data-login-form>
+        <div class="form-row">
+          <label for="identifier">用户名或电子邮箱 *</label>
+          <input id="identifier" name="identifier" autocomplete="username" required>
+        </div>
+        <div class="form-row">
+          <label for="password">密码 *</label>
+          <input id="password" name="password" type="password" autocomplete="current-password" required>
+        </div>
+        <div class="actions">
+          <button type="submit">登录</button>
+          <a class="button secondary" href="/pages/register.html">注册客户账号</a>
+        </div>
+      </form>
+    </section>
+  </main>
+  <script type="module" src="/assets/js/auth-pages.js"></script>
+</body>
+</html>

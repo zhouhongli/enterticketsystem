@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>新建工单 - 企业售后工单系统</title>
+  <link rel="stylesheet" href="/assets/css/styles.css">
+</head>
+<body data-customer-page="ticket-new">
+  <header class="app-header">
+    <div class="brand">企业售后工单系统</div>
+    <div class="identity" data-identity>zhangsan｜客户｜退出</div>
+  </header>
+  <nav class="nav">
+    <a href="/pages/customer/tickets.html">我的工单</a>
+    <a href="/pages/customer/ticket-new.html" aria-current="page">新建工单</a>
+  </nav>
+  <main class="page">
+    <h1 class="page-title">新建工单</h1>
+    <div class="feedback" data-feedback>正在加载可用分类...</div>
+    <section class="panel">
+      <form data-ticket-create-form>
+        <div class="form-row">
+          <label for="category">问题分类 *</label>
+          <select id="category" name="category_id" required data-category-select>
+            <option value="">请选择分类</option>
+          </select>
+        </div>
+        <div class="form-row">
+          <label for="title">标题 *</label>
+          <input id="title" name="title" maxlength="100" required>
+        </div>
+        <div class="form-row">
+          <label for="description">问题描述 *</label>
+          <textarea id="description" name="description" maxlength="4000" required></textarea>
+        </div>
+        <div class="actions">
+          <button type="submit">创建工单</button>
+          <a class="button secondary" href="/pages/customer/tickets.html">返回我的工单</a>
+        </div>
+      </form>
+    </section>
+    <div class="empty" data-category-empty hidden>暂无可用分类，暂不能创建工单。</div>
+  </main>
+  <script type="module" src="/assets/js/session-ui.js"></script>
+  <script type="module" src="/assets/js/customer-tickets.js"></script>
+</body>
+</html>

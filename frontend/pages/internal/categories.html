@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>分类管理 - 企业售后工单系统</title>
+  <link rel="stylesheet" href="/assets/css/styles.css">
+</head>
+<body data-admin-page="categories">
+  <header class="app-header">
+    <div class="brand">企业售后工单系统</div>
+    <div class="identity" data-identity>admin｜管理员｜退出</div>
+  </header>
+  <nav class="nav">
+    <a href="/pages/internal/tickets.html">工单列表</a>
+    <a href="/pages/internal/categories.html" aria-current="page">分类管理</a>
+    <a href="/pages/internal/agents.html">客服账号</a>
+    <a href="/pages/internal/customers.html">客户账号</a>
+  </nav>
+  <main class="page">
+    <h1 class="page-title">分类管理</h1>
+    <div class="feedback" data-feedback>正在加载分类...</div>
+    <section class="panel">
+      <h2>新增分类</h2>
+      <form class="actions" data-category-form>
+        <input name="name" aria-label="分类名称" placeholder="分类名称 *" maxlength="50" required>
+        <button type="submit">保存</button>
+      </form>
+    </section>
+    <section class="panel">
+      <h2>分类列表</h2>
+      <table>
+        <thead><tr><th>分类名称</th><th>状态</th><th>创建时间</th><th>操作</th></tr></thead>
+        <tbody data-category-list><tr><td colspan="4" class="meta">正在加载...</td></tr></tbody>
+      </table>
+    </section>
+  </main>
+  <script type="module" src="/assets/js/session-ui.js"></script>
+  <script type="module" src="/assets/js/admin-management.js"></script>
+</body>
+</html>

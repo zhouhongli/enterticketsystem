@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>内部工单列表 - 企业售后工单系统</title>
+  <link rel="stylesheet" href="/assets/css/styles.css">
+</head>
+<body data-internal-page="tickets">
+  <header class="app-header">
+    <div class="brand">企业售后工单系统</div>
+    <div class="identity" data-identity>service01｜客服｜退出</div>
+  </header>
+  <nav class="nav">
+    <a href="/pages/internal/tickets.html" aria-current="page">工单列表</a>
+    <a href="/pages/internal/categories.html">分类管理</a>
+    <a href="/pages/internal/agents.html">客服账号</a>
+    <a href="/pages/internal/customers.html">客户账号</a>
+  </nav>
+  <main class="page">
+    <h1 class="page-title">工单列表</h1>
+    <div class="feedback" data-feedback>正在加载内部工单...</div>
+    <div class="filters">
+      <a class="filter" href="/pages/internal/tickets.html" data-status-filter="">全部</a>
+      <a class="filter" href="/pages/internal/tickets.html?status=unassigned" data-status-filter="unassigned">待分配</a>
+      <a class="filter" href="/pages/internal/tickets.html?status=processing" data-status-filter="processing">处理中</a>
+      <a class="filter" href="/pages/internal/tickets.html?status=resolved" data-status-filter="resolved">已解决</a>
+      <a class="filter" href="/pages/internal/tickets.html?status=closed" data-status-filter="closed">已关闭</a>
+    </div>
+    <section class="panel">
+      <table>
+        <thead>
+          <tr><th>标题</th><th>客户</th><th>分类</th><th>状态</th><th>负责人</th><th>创建时间</th><th>操作</th></tr>
+        </thead>
+        <tbody data-ticket-list>
+          <tr><td colspan="7" class="meta">正在加载...</td></tr>
+        </tbody>
+      </table>
+    </section>
+    <div class="empty" data-ticket-empty hidden>当前没有符合状态条件的工单。</div>
+  </main>
+  <script type="module" src="/assets/js/session-ui.js"></script>
+  <script type="module" src="/assets/js/internal-tickets.js"></script>
+</body>
+</html>
