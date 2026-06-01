@@ -1,16 +1,16 @@
 """Seed script for development/testing. Creates users, categories, tickets, messages, and audit logs."""
 from __future__ import annotations
 
+from app.config import get_settings
 from app.domain.enums import CategoryStatus, TicketStatus, UserRole, UserStatus
 from app.repositories.json_repository import JsonRepository
 from app.security.passwords import PasswordService
 from app.storage.json_store import JsonFileStore
 
-DATA_FILE = "data/store.json"
-
 
 def seed() -> None:
-    store = JsonFileStore(DATA_FILE)
+    settings = get_settings()
+    store = JsonFileStore(settings.data_file_path)
     store.ensure_initialized()
     repo = JsonRepository(store)
     pw = PasswordService()
