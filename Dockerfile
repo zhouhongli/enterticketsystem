@@ -11,10 +11,13 @@ COPY backend/pyproject.toml ./
 RUN pip install --no-cache-dir .
 
 COPY backend/app/ ./app/
+COPY backend/seed.py ./seed.py
 COPY frontend/ ./frontend/
+COPY start-entrypoint.sh /app/start-entrypoint.sh
 
 RUN mkdir -p /app/data && \
-    chmod -R a+rw /app/data
+    chmod -R a+rw /app/data && \
+    chmod +x /app/start-entrypoint.sh
 
 ENV APP_NAME="企业售后工单系统" \
     APP_ENV="production" \
@@ -24,5 +27,4 @@ ENV APP_NAME="企业售后工单系统" \
 
 EXPOSE 8000
 
-ENTRYPOINT ["tini", "--"]
-CMD ["uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "8000", "--workers", "1"]
+ENTRYPOINT ["tini", "--", "/app/start-entrypoint.sh"]

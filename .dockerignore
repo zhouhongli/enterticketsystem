@@ -12,6 +12,5 @@ __pycache__
 backend/data/store.json
 backend/data/store.json.bak
 backend/data/.gitkeep
-backend/seed.py
 backend/requirements-dev.lock
 .github
