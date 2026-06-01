@@ -34,7 +34,7 @@ mkdir -p backend/data
 
 # ── Build and start ──
 echo "正在构建容器镜像..."
-docker compose build --quiet
+docker compose build
 
 echo "正在启动企业售后工单系统..."
 docker compose up -d
