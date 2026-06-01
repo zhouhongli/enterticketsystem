@@ -41,10 +41,11 @@ FastAPI REST API (/api/v1) + 静态文件服务
         ├── /          → 重定向到登录页
         ├── /pages/    → 静态 HTML 页面
         ├── /assets/   → CSS/JS 资源
+        ├── /api/v1/health → 健康检查
         └── /api/v1/*  → REST 接口
               ├── /auth         注册、登录、退出、会话
               ├── /categories   问题分类管理
-              ├── /admin        管理员功能（账号管理）
+              ├── /admin        管理员功能（账号管理、数据看板）
               ├── /customer     客户工单操作
               └── /internal     内部工单处理
 ```
@@ -160,6 +161,7 @@ unassigned → processing → resolved → closed
 - `customer-tickets.js` — 客户工单 CRUD
 - `internal-tickets.js` — 内部工单列表/详情/分配/状态流转
 - `admin-management.js` — 分类、客服账号、客户账号管理
+- `admin-stats.js` — 管理员数据看板（概览指标、趋势、平均耗时、分类分布）
 - `form-utils.js` — 表单反馈工具
 - `ticket-ui.js` — 工单状态标签等通用 UI
 
@@ -170,6 +172,7 @@ unassigned → processing → resolved → closed
 - 使用 `app.dependency_overrides[get_settings] = lambda: test_settings` 注入测试配置
 - 数据文件通过 `pytest tmp_path` fixture 指向临时目录
 - 每个测试独立创建 app、repo、client，不共享状态
+- 测试 helper 函数（`make_settings`、`make_repo`、`make_app`、`make_client`）定义在各测试文件顶部，无共享 conftest
 
 ```python
 # 典型测试模式
@@ -205,3 +208,13 @@ def test_something(tmp_path) -> None:
 ## 不在 MVP 范围内的功能
 
 附件、外部通知、SLA、统计报表、高级搜索、导出、客户确认关闭、取消、退回、重开、自动关闭、密码找回、多因素认证、验证码、关系型数据库迁移、多实例并发写入。
+
+## 管理员路由详情
+
+| 方法 | 路径 | 说明 |
+|---|---|---|
+| GET | `/api/v1/admin/agents` | 列出所有客服账号 |
+| POST | `/api/v1/admin/agents` | 创建客服账号（管理员设定密码） |
+| GET | `/api/v1/admin/customers` | 列出所有客户 |
+| PATCH | `/api/v1/admin/customers/{id}/status` | 启用/禁用客户账号 |
+| GET | `/api/v1/admin/stats?range=7d\|30d\|90d\|all` | 管理总览数据（工单概览、趋势、平均处理时长、分类分布） |
