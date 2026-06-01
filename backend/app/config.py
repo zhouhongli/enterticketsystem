@@ -7,7 +7,10 @@ from pathlib import Path
 
 
 BACKEND_ROOT = Path(__file__).resolve().parents[1]
-PROJECT_ROOT = BACKEND_ROOT.parent
+# In Docker, backend/ and frontend/ are both under /app/, so BACKEND_ROOT is already the project root.
+# Locally, backend/ is a subdirectory, so we go one level up.
+_PROJECT_PARENT = BACKEND_ROOT.parent
+PROJECT_ROOT = BACKEND_ROOT if (BACKEND_ROOT / "frontend").exists() else _PROJECT_PARENT
 
 
 def _bool_from_env(name: str, default: bool) -> bool:
