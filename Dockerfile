@@ -4,7 +4,8 @@ WORKDIR /app
 
 RUN apt-get update && \
     apt-get install -y --no-install-recommends tini && \
-    rm -rf /var/lib/apt/lists/*
+    rm -rf /var/lib/apt/lists/* && \
+    pip install --no-cache-dir setuptools
 
 COPY backend/pyproject.toml ./
 RUN pip install --no-cache-dir .
