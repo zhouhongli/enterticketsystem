@@ -1,6 +1,7 @@
 services:
   ticket-system:
     build: .
+    image: enterticketsystem:latest
     container_name: enterticketsystem
     restart: unless-stopped
     ports:
