@@ -1,0 +1,20 @@
+services:
+  ticket-system:
+    build: .
+    container_name: enterticketsystem
+    restart: unless-stopped
+    ports:
+      - "8000:8000"
+    volumes:
+      - ticket-data:/app/data
+    env_file:
+      - .env
+    environment:
+      - APP_NAME=企业售后工单系统
+      - APP_ENV=production
+      - TICKET_DATA_FILE=/app/data/store.json
+      - SESSION_COOKIE_SECURE=true
+      - SESSION_TTL_HOURS=8
+
+volumes:
+  ticket-data:
